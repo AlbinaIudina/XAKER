@@ -1,3 +1,3 @@
 git add .
-git commit -m "добавил меню"
+git commit -m "новое  меню архив , и мобильна адаптация "
 git push

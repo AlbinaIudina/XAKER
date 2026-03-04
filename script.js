@@ -453,6 +453,66 @@ carSet.addEventListener('click', () => {
     const number = document.getElementById('car-number').value || 'Не указано';
     const direction = document.getElementById('car-direction').value;
     const directionNames = { north: '⬆️ СЕВЕР', south: '⬇️ ЮГ', east: '➡️ ВОСТОК', west: '⬅️ ЗАПАД' };
-    
+
     alert(`МАШИНА ОТПРАВЛЕНА!\n\n🚗 Марка: ${brand}\n🔢 Номер: ${number}\n🧭 Направление: ${directionNames[direction]}\n\nАвтомобиль в пути!`);
+});
+
+// АРХИВ меню
+const archiveBtn = document.getElementById('archive-btn');
+const archiveMenu = document.getElementById('archive-menu');
+const archiveBack = document.getElementById('archive-back');
+const archiveSearch = document.getElementById('archive-search');
+const archiveDonate = document.getElementById('archive-donate');
+const archiveCreate = document.getElementById('archive-create');
+const archiveLogin = document.getElementById('archive-login');
+const archiveRamadan = document.getElementById('archive-ramadan');
+
+// Открыть меню АРХИВ
+archiveBtn.addEventListener('click', () => {
+    archiveMenu.style.display = 'flex';
+});
+
+// Закрыть меню АРХИВ
+archiveBack.addEventListener('click', () => {
+    archiveMenu.style.display = 'none';
+});
+
+// Поиск
+archiveSearch.addEventListener('click', () => {
+    const query = prompt('🔍 Введите поисковый запрос:');
+    if (query) {
+        alert(`🔍 ПОИСК\n\nЗапрос: "${query}"\n\nРезультатов найдено: ${Math.floor(Math.random() * 1000) + 1}\n\n[Показать результаты]`);
+    }
+});
+
+// Пожертвовать
+archiveDonate.addEventListener('click', () => {
+    const amount = prompt('💰 Введите сумму пожертвования (₽):', '100');
+    if (amount) {
+        alert(`💰 ПОЖЕРТВОВАНИЕ\n\nСумма: ${amount} ₽\n\nСпасибо за вашу поддержку!\n\n[Перейти к оплате]`);
+    }
+});
+
+// Создать аккаунт
+archiveCreate.addEventListener('click', () => {
+    const email = prompt('📝 Введите email для регистрации:');
+    if (email) {
+        alert(`📝 АККАУНТ СОЗДАН!\n\nEmail: ${email}\n\nПисьмо с подтверждением отправлено.\n\n[Войти]`);
+    }
+});
+
+// Войти
+archiveLogin.addEventListener('click', () => {
+    const login = prompt('🔐 Введите логин:');
+    if (login) {
+        const password = prompt('🔐 Введите пароль:');
+        if (password) {
+            alert(`🔐 ВХОД ВЫПОЛНЕН!\n\nЛогин: ${login}\n\nДобро пожаловать!`);
+        }
+    }
+});
+
+// Вики любит логотип Рамадана
+archiveRamadan.addEventListener('click', () => {
+    alert(`🌙 ВИКИ ЛЮБИТ ЛОГОТИП РАМАДАНА\n\nWiki любит Рамадан 2026\n\nРасскажите миру о традициях Рамадана! Присоединяйтесь к глобальной кампании по устранению пробелов в знаниях об истории и культуре ислама.\n\nБашня Хассана\n\n[Участвовать прямо сейчас]`);
 });
