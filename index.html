@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>хакер0101010101</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Экран загрузки */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        #loader-text {
+            color: #0f0;
+            font-size: 48px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        #loader-bar {
+            width: 300px;
+            height: 4px;
+            background-color: #111;
+            margin-top: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #loader-progress {
+            width: 0%;
+            height: 100%;
+            background-color: #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: width 1ms;
+        }
+
+        /* Канвас для матрицы */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Основной контент */
+        #content {
+            position: relative;
+            z-index: 10;
+            color: #0f0;
+            text-align: center;
+            padding-top: 20%;
+            text-shadow: 0 0 10px #0f0;
+            display: none;
+        }
+
+        #content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .version {
+            color: #0f0;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px #0f0;
+            opacity: 0.7;
+        }
+
+        #dos-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+        }
+
+        #dos-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* DOS меню */
+        #dos-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 2000;
+        }
+
+        #dos-menu h2 {
+            color: #0f0;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .dos-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .dos-form label {
+            color: #0f0;
+            font-size: 16px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .dos-form input,
+        .dos-form select {
+            background-color: black;
+            border: 2px solid #0f0;
+            color: #0f0;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 5px #0f0;
+            outline: none;
+        }
+
+        .dos-form input:focus,
+        .dos-form select:focus {
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .dos-form button {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .dos-form button:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        #dos-start {
+            background-color: #0f0;
+            color: black;
+        }
+
+        #dos-start:hover {
+            background-color: #0a0;
+        }
+
+        /* Результаты DOS */
+        #dos-results {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 3000;
+        }
+
+        #dos-results h2 {
+            color: #0f0;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        #result-content {
+            color: #0f0;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #0f0;
+            line-height: 1.8;
+        }
+
+        .result-success {
+            color: #0f0;
+            font-weight: bold;
+        }
+
+        .result-error {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        .result-normal {
+            color: #ff0;
+            font-weight: bold;
+        }
+
+        #results-back {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+        }
+
+        #results-back:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Консоль */
+        #console-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        #console-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        #console-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 4000;
+        }
+
+        #console-menu h2 {
+            color: #0f0;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .console-output {
+            width: 600px;
+            max-width: 90%;
+            height: 250px;
+            background-color: black;
+            border: 2px solid #0f0;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px #0f0;
+            text-align: left;
+        }
+
+        .console-output p {
+            margin: 5px 0;
+        }
+
+        .console-input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 600px;
+            max-width: 90%;
+            margin-bottom: 20px;
+        }
+
+        .console-input-line .prompt {
+            color: #0f0;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .console-input-line input {
+            flex: 1;
+            background-color: black;
+            border: 2px solid #0f0;
+            color: #0f0;
+            padding: 10px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 5px #0f0;
+            outline: none;
+        }
+
+        .console-commands {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .console-commands p {
+            color: #0f0;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .cmd-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 5px #0f0;
+            box-shadow: 0 0 5px #0f0;
+            transition: all 0.3s;
+            margin: 5px;
+            display: block;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .cmd-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        #console-back {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+        }
+
+        #console-back:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Устройства */
+        #devices-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        #devices-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        #devices-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 5000;
+        }
+
+        #devices-menu h2 {
+            color: #0f0;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .devices-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .devices-form label {
+            color: #0f0;
+            font-size: 18px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .devices-form input {
+            background-color: black;
+            border: 2px solid #0f0;
+            color: #0f0;
+            padding: 12px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 5px #0f0;
+            outline: none;
+            width: 300px;
+            text-align: center;
+        }
+
+        .devices-form input:focus {
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .devices-form button {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+        }
+
+        .devices-form button:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Мини система */
+        #device-system {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 6000;
+        }
+
+        #device-system h2 {
+            color: #0f0;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .system-screen {
+            width: 500px;
+            max-width: 90%;
+            height: 300px;
+            background-color: #111;
+            border: 3px solid #0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px #0f0;
+            overflow-y: auto;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .system-screen.android {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Android14interface.png/500px-Android14interface.png?20240210095226');
+        }
+
+        .system-screen.windows {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .system-title {
+            color: #0f0;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .system-apps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .system-app {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 255, 0, 0.3);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .system-app:hover {
+            background-color: rgba(0, 255, 0, 0.6);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .system-app.windows-app {
+            background-color: rgba(100, 100, 255, 0.3);
+            border-color: #55f;
+            color: #55f;
+        }
+
+        .system-app.windows-app:hover {
+            background-color: rgba(100, 100, 255, 0.6);
+            box-shadow: 0 0 15px #55f;
+        }
+
+        #device-destroy {
+            background-color: #f00;
+            color: white;
+            border: 2px solid #f00;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 5px #000;
+            box-shadow: 0 0 15px #f00;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        #device-destroy:hover {
+            background-color: #a00;
+            box-shadow: 0 0 25px #f00;
+        }
+
+        #device-system-back {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+        }
+
+        #device-system-back:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Город */
+        #city-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        #city-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        #city-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 7000;
+        }
+
+        #city-menu h2 {
+            color: #0f0;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .city-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .city-tab {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 5px #0f0;
+            box-shadow: 0 0 5px #0f0;
+            transition: all 0.3s;
+        }
+
+        .city-tab:hover,
+        .city-tab.active {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .city-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            width: 350px;
+            max-width: 90%;
+        }
+
+        .city-panel label {
+            color: #0f0;
+            font-size: 16px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .city-panel input,
+        .city-panel select {
+            background-color: black;
+            border: 2px solid #0f0;
+            color: #0f0;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 5px #0f0;
+            outline: none;
+            width: 100%;
+        }
+
+        .city-panel input:focus,
+        .city-panel select:focus {
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .city-panel button {
+            background-color: #0f0;
+            color: black;
+            border: 2px solid #0f0;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 5px #000;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .city-panel button:hover {
+            background-color: #0a0;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .city-back-btn {
+            background-color: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .city-back-btn:hover {
+            background-color: #0f0;
+            color: black;
+            box-shadow: 0 0 20px #0f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран загрузки -->
+    <div id="loader">
+        <div id="loader-text">0%</div>
+        <div id="loader-bar">
+            <div id="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Матрица -->
+    <canvas id="matrix"></canvas>
+
+    <!-- Контент -->
+    <div id="content">
+        <h1>хакер0101010101</h1>
+        <p class="version">Версия V1.0</p>
+        <button id="dos-btn">DOS</button>
+        <button id="console-btn">КОНСОЛЬ</button>
+        <button id="devices-btn">УСТРОЙСТВА</button>
+        <button id="city-btn">ГОРОД</button>
+     </div>
+
+    <!-- DOS меню -->
+    <div id="dos-menu">
+        <h2>DOS АТАКА</h2>
+        <div class="dos-form">
+            <label>Ссылка на сайт:</label>
+            <input type="text" id="dos-url" placeholder="https://example.com">
+            
+            <label>Количество ботов:</label>
+            <input type="number" id="dos-bots" placeholder="1000" value="1000">
+            
+            <label>Формат:</label>
+            <select id="dos-format">
+                <option value="ROP">ROP</option>
+                <option value="TOP">TOP</option>
+                <option value="EROR">EROR</option>
+            </select>
+            
+            <button id="dos-start">ЗАПУСТИТЬ</button>
+            <button id="dos-back">НАЗАД</button>
+        </div>
+    </div>
+
+    <!-- Результаты DOS -->
+    <div id="dos-results">
+        <h2>РЕЗУЛЬТАТЫ</h2>
+        <div id="result-content"></div>
+        <button id="results-back">НАЗАД</button>
+    </div>
+
+    <!-- Консоль -->
+    <div id="console-menu">
+        <h2>КОНСОЛЬ</h2>
+        <div class="console-output" id="console-output"></div>
+        <div class="console-input-line">
+            <span class="prompt">&gt;</span>
+            <input type="text" id="console-url" placeholder="https://target.com">
+        </div>
+        <div class="console-commands">
+            <p>КОМАНДЫ:</p>
+            <button class="cmd-btn" data-cmd="XOPGOP">XOPGOP - взламывает защиту и калибрует сайт</button>
+            <button class="cmd-btn" data-cmd="XOP">XOP - уничтожает сайт</button>
+            <button class="cmd-btn" data-cmd="COPLOR">COPLOR - взламывает сайт</button>
+            <button class="cmd-btn" data-cmd="QWERRRRR">QWERRRRR :::::: - взламывает базу данных</button>
+            <button class="cmd-btn" data-cmd="XOPLOTROPE">XOPLOTROPE - перехват данных и поиск ID</button>
+            <button class="cmd-btn" data-cmd="SOURCEHACK">SOURCEHACK - взлом исходного кода сайта</button>
+        </div>
+        <button id="console-back">НАЗАД</button>
+    </div>
+
+    <!-- Меню устройств -->
+    <div id="devices-menu">
+        <h2>УСТРОЙСТВА</h2>
+        <div class="devices-form">
+            <label>Введите ID устройства:</label>
+            <input type="text" id="device-id-input" placeholder="DEVICE-XXXXX">
+            <button id="device-connect">ПОДКЛЮЧИТЬСЯ</button>
+        </div>
+    </div>
+
+    <!-- Мини система устройства -->
+    <div id="device-system">
+        <h2 id="system-title">ANDROID SYSTEM</h2>
+        <div class="system-screen" id="system-screen"></div>
+        <button id="device-destroy">УНИЧТОЖИТЬ</button>
+        <button id="device-system-back">НАЗАД</button>
+    </div>
+
+    <!-- Меню города -->
+    <div id="city-menu">
+        <h2>УПРАВЛЕНИЕ ГОРОДОМ</h2>
+        <div class="city-tabs">
+            <button class="city-tab active" data-tab="traffic">СВЕТОФОР</button>
+            <button class="city-tab" data-tab="doors">ДВЕРИ</button>
+            <button class="city-tab" data-tab="cars">МАШИНЫ</button>
+        </div>
+        
+        <!-- Светофор -->
+        <div id="city-traffic" class="city-panel">
+            <label>Улица:</label>
+            <input type="text" id="traffic-street" placeholder="ул. Ленина">
+            <label>Дом:</label>
+            <input type="text" id="traffic-house" placeholder="15">
+            <label>Цвет:</label>
+            <select id="traffic-color">
+                <option value="red">🔴 КРАСНЫЙ</option>
+                <option value="yellow">🟡 ЖЁЛТЫЙ</option>
+                <option value="green">🟢 ЗЕЛЁНЫЙ</option>
+            </select>
+            <button id="traffic-set">УСТАНОВИТЬ</button>
+        </div>
+        
+        <!-- Двери -->
+        <div id="city-doors" class="city-panel" style="display: none;">
+            <label>Улица:</label>
+            <input type="text" id="doors-street" placeholder="ул. Пушкина">
+            <label>Дом:</label>
+            <input type="text" id="doors-house" placeholder="10">
+            <label>Действие:</label>
+            <select id="doors-action">
+                <option value="open">🔓 ОТКРЫТЬ</option>
+                <option value="close">🔒 ЗАКРЫТЬ</option>
+            </select>
+            <button id="doors-set">ВЫПОЛНИТЬ</button>
+        </div>
+        
+        <!-- Машины -->
+        <div id="city-cars" class="city-panel" style="display: none;">
+            <label>Марка машины:</label>
+            <input type="text" id="car-brand" placeholder="BMW X5">
+            <label>Номер:</label>
+            <input type="text" id="car-number" placeholder="А 123 АА 777">
+            <label>Направление:</label>
+            <select id="car-direction">
+                <option value="north">⬆️ СЕВЕР</option>
+                <option value="south">⬇️ ЮГ</option>
+                <option value="east">➡️ ВОСТОК</option>
+                <option value="west">⬅️ ЗАПАД</option>
+            </select>
+            <button id="car-set">ОТПРАВИТЬ</button>
+        </div>
+        
+        <button id="city-back" class="city-back-btn">НАЗАД</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+// Экран загрузки
+const loader = document.getElementById('loader');
+const loaderText = document.getElementById('loader-text');
+const loaderProgress = document.getElementById('loader-progress');
+const content = document.getElementById('content');
+
+let percent = 0;
+
+function updateLoader() {
+    percent++;
+    loaderText.textContent = percent + '%';
+    loaderProgress.style.width = percent + '%';
+    
+    if (percent < 100) {
+        setTimeout(updateLoader, 1); // 1% за 1мс
+    } else {
+        // Загрузка завершена
+        setTimeout(() => {
+            loader.style.display = 'none';
+            content.style.display = 'block';
+            startMatrix();
+        }, 500);
+    }
+}
+
+// Запуск загрузки
+updateLoader();
+
+// Матрица
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const columns = Math.floor(canvas.width / 20);
+const drops = [];
+
+// Инициализация капель
+for (let i = 0; i < columns; i++) {
+    drops[i] = Math.random() * -100;
+}
+
+const chars = '01';
+
+function drawMatrix() {
+    // Полупрозрачный фон для следа
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = '#0f0';
+    ctx.font = '16px Courier New';
+    
+    for (let i = 0; i < drops.length; i++) {
+        // Случайный символ
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        
+        // Рисуем символ
+        ctx.fillText(char, i * 20, drops[i] * 20);
+        
+        // Сброс капли
+        if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        
+        drops[i]++;
+    }
+}
+
+function startMatrix() {
+    setInterval(drawMatrix, 50);
+}
+
+// Изменение размера окна
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+// Кнопка DOS
+const dosBtn = document.getElementById('dos-btn');
+const dosMenu = document.getElementById('dos-menu');
+const dosStart = document.getElementById('dos-start');
+const dosBack = document.getElementById('dos-back');
+const dosUrl = document.getElementById('dos-url');
+const dosBots = document.getElementById('dos-bots');
+const dosFormat = document.getElementById('dos-format');
+const dosResults = document.getElementById('dos-results');
+const resultContent = document.getElementById('result-content');
+const resultsBack = document.getElementById('results-back');
+
+// Открыть DOS меню
+dosBtn.addEventListener('click', () => {
+    dosMenu.style.display = 'flex';
+});
+
+// Закрыть DOS меню (назад)
+dosBack.addEventListener('click', () => {
+    dosMenu.style.display = 'none';
+});
+
+// Запуск DOS
+dosStart.addEventListener('click', () => {
+    const url = dosUrl.value || 'Не указано';
+    const bots = dosBots.value || '0';
+    const format = dosFormat.value;
+    
+    // Шанс 98% на успех
+    const isSuccess = Math.random() < 0.98;
+    const successPercent = Math.floor(Math.random() * 45) + 55; // 55-99%
+    
+    let resultHTML = '';
+    
+    if (isSuccess) {
+        resultHTML = `
+            <p class="result-success">✓ УСПЕШНО</p>
+            <p>Эффективность: ${successPercent}%</p>
+            <p>Цель: ${url}</p>
+            <p>Ботов задействовано: ${bots}</p>
+            <p>Формат: ${format}</p>
+        `;
+    } else {
+        // Не успешно (2% шанс)
+        const errorTypes = ['ОШИБКА СОЕДИНЕНИЯ', 'ЦЕЛЬ НЕДОСТУПНА', 'ПРЕВЫШЕН ЛИМИТ', 'ОТКАЗ СЕРВЕРА'];
+        const errorType = errorTypes[Math.floor(Math.random() * errorTypes.length)];
+        resultHTML = `
+            <p class="result-error">✗ ${errorType}</p>
+            <p>Статус: НЕ УСПЕШНО</p>
+            <p>Цель: ${url}</p>
+            <p>Формат: ${format}</p>
+        `;
+    }
+    
+    resultContent.innerHTML = resultHTML;
+    dosMenu.style.display = 'none';
+    dosResults.style.display = 'flex';
+});
+
+// Закрыть результаты (назад)
+resultsBack.addEventListener('click', () => {
+    dosResults.style.display = 'none';
+});
+
+// Консоль
+const consoleBtn = document.getElementById('console-btn');
+const consoleMenu = document.getElementById('console-menu');
+const consoleOutput = document.getElementById('console-output');
+const consoleUrl = document.getElementById('console-url');
+const consoleBack = document.getElementById('console-back');
+const cmdBtns = document.querySelectorAll('.cmd-btn');
+
+// Флаг защиты
+let protectionHacked = false;
+
+// Открыть консоль
+consoleBtn.addEventListener('click', () => {
+    consoleMenu.style.display = 'flex';
+    consoleOutput.innerHTML = '<p>Консоль готова...</p>';
+    protectionHacked = false;
+});
+
+// Закрыть консоль
+consoleBack.addEventListener('click', () => {
+    consoleMenu.style.display = 'none';
+    protectionHacked = false;
+});
+
+// Обработка команд
+cmdBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const cmd = btn.getAttribute('data-cmd');
+        const url = consoleUrl.value || 'Не указано';
+        
+        consoleOutput.innerHTML += `<p>> ${cmd} ${url}</p>`;
+        
+        // Проверка: если команда не XOPGOP и защита не взломана
+        if (cmd !== 'XOPGOP' && !protectionHacked) {
+            consoleOutput.innerHTML += '<p class="result-error">✗ ОШИБКА 44444444: Сначала используйте XOPGOP для взлома защиты!</p>';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            return;
+        }
+        
+        // Симуляция выполнения
+        const steps = cmd === 'XOPGOP' 
+            ? ['Анализ защиты...', 'Поиск уязвимостей...', 'Взлом защиты...', 'Калибровка сайта...']
+            : ['Подключение к цели...', 'Обход защиты...', 'Внедрение кода...', 'Выполнение команды...'];
+        
+        let step = 0;
+        const interval = setInterval(() => {
+            if (step < steps.length) {
+                consoleOutput.innerHTML += `<p>${steps[step]}</p>`;
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                step++;
+            } else {
+                clearInterval(interval);
+                
+                // Результат команды
+                if (cmd === 'XOPGOP') {
+                    consoleOutput.innerHTML += '<p class="result-success">✓ ЗАЩИТА ВЗЛОМАНА. Сайт откалиброван. Теперь можно использовать другие команды.</p>';
+                    protectionHacked = true;
+                } else if (cmd === 'XOP') {
+                    consoleOutput.innerHTML += '<p class="result-success">✓ САЙТ УНИЧТОЖЕН</p>';
+                } else if (cmd === 'COPLOR') {
+                    consoleOutput.innerHTML += '<p class="result-success">✓ САЙТ ВЗЛОМАН</p>';
+                } else if (cmd === 'QWERRRRR') {
+                    consoleOutput.innerHTML += '<p class="result-success">✓ БАЗА ДАННЫХ ВЗЛОМАНА</p>';
+                } else if (cmd === 'XOPLOTROPE') {
+                    const randomId = 'ID-' + Math.floor(Math.random() * 10000000000);
+                    const names = ['Alex', 'Dmitry', 'Maxim', 'Ivan', 'Sergey', 'Pavel', 'Andrey', 'Nikolay'];
+                    const cities = ['Moscow', 'Saint Petersburg', 'Kazan', 'Novosibirsk', 'Yekaterinburg', 'Sochi'];
+                    const randomName = names[Math.floor(Math.random() * names.length)];
+                    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+                    consoleOutput.innerHTML += '<p class="result-success">✓ ДАННЫЕ ПЕРЕХВАЧЕНЫ</p>';
+                    consoleOutput.innerHTML += `<p>Имя: ${randomName}</p>`;
+                    consoleOutput.innerHTML += `<p>Город: ${randomCity}</p>`;
+                    consoleOutput.innerHTML += `<p>IP: ${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}</p>`;
+                    consoleOutput.innerHTML += `<p class="result-normal">Найден ID: ${randomId}</p>`;
+                } else if (cmd === 'SOURCEHACK') {
+                    consoleOutput.innerHTML += '<p class="result-success">✓ ВЗЛОМ ИСХОДНОГО КОДА...</p>';
+                    // Генерация случайного HTML кода
+                    const htmlSnippets = [
+                        '&lt;html&gt;&lt;head&gt;&lt;title&gt;Target Site&lt;/title&gt;&lt;/head&gt;',
+                        '&lt;body bgcolor="black"&gt;&lt;div class="container"&gt;',
+                        '&lt;script src="malware.js"&gt;&lt;/script&gt;',
+                        '&lt;iframe src="http://evil.com/steal.php"&gt;&lt;/iframe&gt;',
+                        '&lt;input type="password" name="pass"&gt;',
+                        '&lt;/body&gt;&lt;/html&gt;'
+                    ];
+                    // Показываем случайный HTML и бинарный код
+                    for (let i = 0; i < 5; i++) {
+                        const randomHtml = htmlSnippets[Math.floor(Math.random() * htmlSnippets.length)];
+                        const binaryCode = Array(8).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join('');
+                        consoleOutput.innerHTML += `<p class="result-normal">${randomHtml}</p>`;
+                        consoleOutput.innerHTML += `<p>101010${binaryCode}010101001010</p>`;
+                    }
+                }
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            }
+        }, 500);
+    });
+});
+
+// Устройства
+const devicesBtn = document.getElementById('devices-btn');
+const devicesMenu = document.getElementById('devices-menu');
+const deviceIdInput = document.getElementById('device-id-input');
+const deviceConnect = document.getElementById('device-connect');
+const deviceSystem = document.getElementById('device-system');
+const systemTitle = document.getElementById('system-title');
+const systemScreen = document.getElementById('system-screen');
+const deviceDestroy = document.getElementById('device-destroy');
+const deviceSystemBack = document.getElementById('device-system-back');
+
+let currentDeviceId = '';
+let currentSystem = '';
+
+// Открыть меню устройств
+devicesBtn.addEventListener('click', () => {
+    devicesMenu.style.display = 'flex';
+});
+
+// Подключиться к устройству
+deviceConnect.addEventListener('click', () => {
+    const deviceId = deviceIdInput.value || 'DEVICE-' + Math.floor(Math.random() * 100000);
+    currentDeviceId = deviceId;
+    
+    // Случайный выбор системы (50/50)
+    currentSystem = Math.random() > 0.5 ? 'android' : 'windows';
+    
+    devicesMenu.style.display = 'none';
+    deviceSystem.style.display = 'flex';
+    
+    // Настройка системы
+    if (currentSystem === 'android') {
+        systemTitle.textContent = 'ANDROID SYSTEM';
+        systemScreen.className = 'system-screen android';
+        systemScreen.innerHTML = `
+            <div class="system-title">Устройство: ${deviceId}</div>
+            <div class="system-apps" style="position: absolute; bottom: 80px; left: 0; right: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 10px;">
+                <div class="system-app" onclick="openApp('Телефон')">📱</div>
+                <div class="system-app" onclick="openApp('Сообщения')">💬</div>
+                <div class="system-app" onclick="openApp('Почта')">📧</div>
+                <div class="system-app" onclick="openApp('Браузер')">🌐</div>
+                <div class="system-app" onclick="openApp('Камера')">📷</div>
+                <div class="system-app" onclick="openApp('Музыка')">🎵</div>
+                <div class="system-app" onclick="openApp('Настройки')">⚙️</div>
+                <div class="system-app" onclick="openApp('Файлы')">📁</div>
+                <div class="system-app" onclick="openBank()">🏦</div>
+                <div class="system-app" onclick="openYoutube()">📺</div>
+            </div>
+        `;
+    } else {
+        systemTitle.textContent = 'WINDOWS SYSTEM';
+        systemScreen.className = 'system-screen windows';
+        systemScreen.innerHTML = `
+            <div class="system-title">Устройство: ${deviceId}</div>
+            <div class="system-apps" style="position: absolute; top: 50px; left: 10px;">
+                <div class="system-app windows-app" onclick="openApp('Мой компьютер')">🪟</div>
+                <div class="system-app windows-app" onclick="openApp('Проводник')">📁</div>
+                <div class="system-app windows-app" onclick="openApp('Edge')">🌐</div>
+                <div class="system-app windows-app" onclick="openApp('Блокнот')">📝</div>
+                <div class="system-app windows-app" onclick="openApp('Игры')">🎮</div>
+                <div class="system-app windows-app" onclick="openApp('Параметры')">⚙️</div>
+                <div class="system-app windows-app" onclick="openApp('Защитник')">🔒</div>
+                <div class="system-app windows-app" onclick="openApp('Корзина')">🗑️</div>
+            </div>
+        `;
+    }
+});
+
+// Открыть приложение
+function openApp(appName) {
+    if (appName === 'Сообщения') {
+        openMessages();
+    } else {
+        alert(`Открыто приложение: ${appName}`);
+    }
+}
+
+// Открыть сообщения
+function openMessages() {
+    const names = ['Иван', 'Петя', 'Лёня', 'Никита'];
+    const messages = [
+        'Привет, как дела?\n- Норм, а у тебя?\n- Тоже норм',
+        'Привет, псина!\n- Чё сказал?\n- То что слышал',
+        'Привет, пойдём на свидание на Старый мост?\n- Ну давай, во сколько?\n- В 7 вечера',
+        'Лукум хочешь?\n- Какой ещё лукум?\n- Турецкий, вкусный\n- Давай попробуем',
+        'Привет! Давно не виделись\n- Привет, да как ты?\n- Всё отлично, работаю',
+        'Ты где сейчас?\n- Дома, отдыхаю\n- Понятно, я тоже'
+    ];
+    
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    
+    alert(`💬 СООБЩЕНИЯ\n\nОт: ${randomName}\n\n${randomMessage}`);
+}
+
+// Открыть банк
+function openBank() {
+    const balance = Math.floor(Math.random() * 80000) + 20000; // 20000-100000
+    alert(`🏦 БАНК ПРИЛОЖЕНИЕ\n\nВаш баланс: ${balance.toLocaleString()} ₽\n\nСчёт: **** 4582\nВладелец: Иван И.\n\n[Пополнить] [Перевести] [Снять]`);
+}
+
+// Открыть YouTube
+function openYoutube() {
+    const videos = [
+        'https://avatars.mds.yandex.net/get-entity_search/5107294/1198114299/SUx182',
+        'https://avatars.mds.yandex.net/get-entity_search/5101278/1247991102/SUx182_2x'
+    ];
+    const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+    const titles = ['ТОП 10 взломов 2025', 'Как взломать систему за 5 минут', 'Хакерская атака на Пентагон', 'Взлом века раскрыт'];
+    const views = [Math.floor(Math.random() * 900) + 100, Math.floor(Math.random() * 50) + 1];
+    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+    
+    alert(`📺 YOUTUBE\n\n▶ ${randomTitle}\n\n👁 ${views[0]}K просмотров\n👍 ${views[1]}K лайков\n\n[Смотреть] [Лайк] [Подписка]`);
+}
+
+// Уничтожить устройство
+deviceDestroy.addEventListener('click', () => {
+    systemScreen.innerHTML = `
+        <p class="result-error" style="text-align: center; font-size: 24px;">
+            ✗ УНИЧТОЖЕНИЕ...<br><br>
+            Система разрушена<br>
+            Устройство отключено<br>
+            ID: ${currentDeviceId}
+        </p>
+    `;
+    systemScreen.style.background = '#300';
+    systemScreen.style.borderColor = '#f00';
+    systemScreen.style.boxShadow = '0 0 30px #f00';
+    
+    setTimeout(() => {
+        deviceSystem.style.display = 'none';
+        devicesMenu.style.display = 'flex';
+        deviceIdInput.value = '';
+    }, 2000);
+});
+
+// Назад из системы
+deviceSystemBack.addEventListener('click', () => {
+    deviceSystem.style.display = 'none';
+    devicesMenu.style.display = 'flex';
+});
+
+// Город
+const cityBtn = document.getElementById('city-btn');
+const cityMenu = document.getElementById('city-menu');
+const cityBack = document.getElementById('city-back');
+const cityTabs = document.querySelectorAll('.city-tab');
+const cityTraffic = document.getElementById('city-traffic');
+const cityDoors = document.getElementById('city-doors');
+const cityCars = document.getElementById('city-cars');
+const trafficSet = document.getElementById('traffic-set');
+const doorsSet = document.getElementById('doors-set');
+const carSet = document.getElementById('car-set');
+
+// Открыть меню города
+cityBtn.addEventListener('click', () => {
+    cityMenu.style.display = 'flex';
+});
+
+// Закрыть меню города
+cityBack.addEventListener('click', () => {
+    cityMenu.style.display = 'none';
+});
+
+// Переключение вкладок
+cityTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        cityTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const tabName = tab.getAttribute('data-tab');
+        if (tabName === 'traffic') {
+            cityTraffic.style.display = 'flex';
+            cityDoors.style.display = 'none';
+            cityCars.style.display = 'none';
+        } else if (tabName === 'doors') {
+            cityTraffic.style.display = 'none';
+            cityDoors.style.display = 'flex';
+            cityCars.style.display = 'none';
+        } else if (tabName === 'cars') {
+            cityTraffic.style.display = 'none';
+            cityDoors.style.display = 'none';
+            cityCars.style.display = 'flex';
+        }
+    });
+});
+
+// Установка светофора
+trafficSet.addEventListener('click', () => {
+    const street = document.getElementById('traffic-street').value || 'Не указано';
+    const house = document.getElementById('traffic-house').value || 'Не указано';
+    const color = document.getElementById('traffic-color').value;
+    const colorNames = { red: '🔴 КРАСНЫЙ', yellow: '🟡 ЖЁЛТЫЙ', green: '🟢 ЗЕЛЁНЫЙ' };
+    
+    alert(`СВЕТОФОР УСТАНОВЛЕН!\n\n📍 Улица: ${street}\n🏠 Дом: ${house}\n🚦 Цвет: ${colorNames[color]}\n\nСигнал изменён!`);
+});
+
+// Управление дверями
+doorsSet.addEventListener('click', () => {
+    const street = document.getElementById('doors-street').value || 'Не указано';
+    const house = document.getElementById('doors-house').value || 'Не указано';
+    const action = document.getElementById('doors-action').value;
+    const actionNames = { open: '🔓 ОТКРЫТО', close: '🔒 ЗАКРЫТО' };
+    
+    alert(`УПРАВЛЕНИЕ ДВЕРЯМИ!\n\n📍 Улица: ${street}\n🏠 Дом: ${house}\n${actionNames[action]}\n\nДверь ${action === 'open' ? 'открыта' : 'закрыта'}!`);
+});
+
+// Управление машинами
+carSet.addEventListener('click', () => {
+    const brand = document.getElementById('car-brand').value || 'Не указано';
+    const number = document.getElementById('car-number').value || 'Не указано';
+    const direction = document.getElementById('car-direction').value;
+    const directionNames = { north: '⬆️ СЕВЕР', south: '⬇️ ЮГ', east: '➡️ ВОСТОК', west: '⬅️ ЗАПАД' };
+    
+    alert(`МАШИНА ОТПРАВЛЕНА!\n\n🚗 Марка: ${brand}\n🔢 Номер: ${number}\n🧭 Направление: ${directionNames[direction]}\n\nАвтомобиль в пути!`);
+});
+</html>
